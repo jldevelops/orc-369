@@ -347,7 +347,7 @@
 						app: "state",
 						state: "{
 							if(!var['fee'] AND !trigger.data.fee) bounce('You must set up fee for first time');
-							if(trigger.data.fee OR trigger.data.fee == 0) 
+							if(trigger.data.fee AND typeof(trigger.data.fee) == 'number') 
 								var['fee'] = trigger.data.fee;
 							if(!var['total_supply']){ 
 								if($CAP){
