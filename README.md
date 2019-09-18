@@ -1,5 +1,5 @@
 # orc-369
 ERC-20 AA implementation
 
-https://testnetexplorer.obyte.org/#HqtU1bLbXnVroWe5In6Va4/T3jlUx+XlOkRX08dkZPQ=
-R57TCCTE3OFB24N4DNWAMGXHLZ567HKO
+https://testnetexplorer.obyte.org/#X0NLfuyUO05gPKuFrmiFJiPTRB7Oe8nchFFZ1Az/d9g=
+KK3SVVEYJAIACEOTE4VSI4YHQVRG6TJR
