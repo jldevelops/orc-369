@@ -2,7 +2,7 @@
 	init: "{
 		$OWNER = 'JBGMJI7XSKLKNHZF26BUBWHVUZSDV3P5';
 		$CAP = 20;
-		if(!var['fee'] AND $OWNER != trigger.address) bounce('Not active yet, wait until owner '||$OWNER||' activation');
+		if(typeof(var['fee']) != 'number' AND $OWNER != trigger.address) bounce('Not active yet, wait until owner '||$OWNER||' activation');
 		if(trigger.data.to AND !is_valid_address(trigger.data.to)) bounce('To param invalid');
 		if(trigger.data.from AND !is_valid_address(trigger.data.from)) bounce('From param invalid');
 		if(trigger.data.spender AND !is_valid_address(trigger.data.spender)) bounce('Spender param invalid');
@@ -346,9 +346,9 @@
 					{
 						app: "state",
 						state: "{
-							if(!var['fee'] AND !trigger.data.fee) bounce('You must set up fee for first time');
-							if(typeof(trigger.data.fee) == 'number' and trigger.data.fee >= 0) 
-								var['fee'] = trigger.data.fee;
+							if(typeof(var['fee']) != 'number' AND typeof(trigger.data.fee) != 'number') bounce('You must set up fee for first time');
+							if(typeof(trigger.data.fee) == 'number') 
+								var['fee'] = trigger.data.fee >= 0 ? round(trigger.data.fee) : 0;
 							if(!var['total_supply']){ 
 								if($CAP){
 									var['total_supply'] = $CAP;
