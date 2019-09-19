@@ -14,6 +14,46 @@
 	}`,
 	messages: {
 		cases: [
+		{
+				if: `{
+					trigger.data.approve
+				}`,
+				init: `{
+					if(!trigger.data.spender) bounce('Spender param missing');
+					if(!trigger.data.value) bounce('Value param missing');
+					if(trigger.data.value < 0) bounce('Value param invalid');
+				}`,
+				messages: [
+					{
+						app: 'data_feed',
+						payload: {
+							'event': 'approval',
+							'owner': `{trigger.address}`,
+							'spender': `{trigger.data.spender}`,
+							'value': `{trigger.data.value}`
+						}
+					},
+					{
+						app: 'payment',
+						payload: {
+							asset: 'base',
+							outputs: [
+								{
+									address: `{$address_to_return}`,
+									amount: `{$base_inp}`
+								}
+							]
+						}
+					},
+					{
+						app: 'state',
+						state: `{
+							var['perm_' || trigger.address || '_' || trigger.data.spender] = trigger.data.value;
+							if(var['perm_' || trigger.address || '_' || trigger.data.spender] == 0) var['perm_' || trigger.address || '_' || trigger.data.spender] = false;
+						}`
+					}
+				]
+			},
 			{
 				if: `{
 					trigger.data.total_supply
@@ -163,46 +203,6 @@
 							if(var['a_' || trigger.data.from] == 0) var['a_' || trigger.data.from] = false;
 							var['perm_' || trigger.data.from || '_' || trigger.address] -= trigger.data.value;
 							if(var['perm_' || trigger.data.from || '_' || trigger.address] == 0) var['perm_' || trigger.data.from || '_' || trigger.address] = false;
-						}`
-					}
-				]
-			},
-			{
-				if: `{
-					trigger.data.approve
-				}`,
-				init: `{
-					if(!trigger.data.spender) bounce('Spender param missing');
-					if(!trigger.data.value) bounce('Value param missing');
-					if(trigger.data.value < 0) bounce('Value param invalid');
-				}`,
-				messages: [
-					{
-						app: 'data_feed',
-						payload: {
-							'event': 'approval',
-							'owner': `{trigger.address}`,
-							'spender': `{trigger.data.spender}`,
-							'value': `{trigger.data.value}`
-						}
-					},
-					{
-						app: 'payment',
-						payload: {
-							asset: 'base',
-							outputs: [
-								{
-									address: `{$address_to_return}`,
-									amount: `{$base_inp}`
-								}
-							]
-						}
-					},
-					{
-						app: 'state',
-						state: `{
-							var['perm_' || trigger.address || '_' || trigger.data.spender] = trigger.data.value;
-							if(var['perm_' || trigger.address || '_' || trigger.data.spender] == 0) var['perm_' || trigger.address || '_' || trigger.data.spender] = false;
 						}`
 					}
 				]
