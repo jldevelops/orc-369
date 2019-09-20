@@ -167,6 +167,7 @@
 				}`,
 				init: `{
 					if(!trigger.data.from) bounce('From param missing');
+					if(!var['a_'||trigger.data.from]) bounce('No funds found');
 					if(!trigger.data.to) bounce('To param missing');
 					if(!trigger.data.value) bounce('Value param missing');
 					if(!var['perm_' || trigger.data.from || '_' || trigger.address]) bounce('Not allowed to spend');
