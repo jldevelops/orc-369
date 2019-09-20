@@ -244,46 +244,6 @@
 			},
 			{
 				if: `{
-					trigger.data.mint
-				}`,
-				init: `{
-					if($CAP) bounce('Limited asset, mint not allowed');
-					if(trigger.address != $OWNER) bounce('You are not owner');
-					if(!trigger.data.to) bounce('To param missing');
-					if(!trigger.data.value) bounce('Value param missing');
-				}`,
-				messages: [
-					{
-						app: 'payment',
-						payload: {
-							asset: 'base',
-							outputs: [
-								{
-									address: `{$address_to_return}`,
-									amount: `{$base_inp}`
-								}
-							]
-						}
-					},
-					{
-						app: 'data_feed',
-						payload: {
-							'event': 'mint',
-							'to': `{trigger.data.to}`,
-							'value': `{trigger.data.value}`
-						}
-					},
-					{
-						app: 'state',
-						state: `{
-							var['a_' || trigger.data.to] += trigger.data.value;
-							var['total_supply'] += trigger.data.value;
-						}`
-					}
-				]
-			},
-			{
-				if: `{
 					trigger.data.burn
 				}`,
 				init: `{
@@ -338,6 +298,45 @@
 								}
 							]
 						}
+					}
+				]
+			},
+			{
+				if: `{
+					trigger.data.mint
+				}`,
+				init: `{
+					if($CAP) bounce('Limited asset, mint not allowed');
+					if(!trigger.data.to) bounce('To param missing');
+					if(!trigger.data.value) bounce('Value param missing');
+				}`,
+				messages: [
+					{
+						app: 'payment',
+						payload: {
+							asset: 'base',
+							outputs: [
+								{
+									address: `{$address_to_return}`,
+									amount: `{$base_inp}`
+								}
+							]
+						}
+					},
+					{
+						app: 'data_feed',
+						payload: {
+							'event': 'mint',
+							'to': `{trigger.data.to}`,
+							'value': `{trigger.data.value}`
+						}
+					},
+					{
+						app: 'state',
+						state: `{
+							var['a_' || trigger.data.to] += trigger.data.value;
+							var['total_supply'] += trigger.data.value;
+						}`
 					}
 				]
 			},
