@@ -25,15 +25,6 @@
 				}`,
 				messages: [
 					{
-						app: 'data_feed',
-						payload: {
-							'event': 'approval',
-							'owner': `{trigger.address}`,
-							'spender': `{trigger.data.spender}`,
-							'value': `{trigger.data.value}`
-						}
-					},
-					{
 						app: 'payment',
 						payload: {
 							asset: 'base',
@@ -72,12 +63,6 @@
 						}
 					},
 					{
-						app: 'data',
-						payload: {
-							'total_supply': `{var['total_supply']}`
-						}
-					},
-					{
 						app: 'state',
 						state: `{
 							response['total_supply'] = var['total_supply'];
@@ -106,12 +91,6 @@
 						}
 					},
 					{
-						app: 'data',
-						payload: {
-							'balance': `{var['a_' || $adrb]}`
-						}
-					},
-					{
 						app: 'state',
 						state: `{
 							response['balance of '||$adrb] = var['a_' || $adrb];
@@ -130,15 +109,6 @@
 					if(trigger.data.value > var['a_'||trigger.address]) bounce('You have max '||var['a_'||trigger.address]);
 				}`,
 				messages: [
-					{
-						app: 'data_feed',
-						payload: {
-							'event': 'transfer',
-							'from': `{trigger.address}`,
-							'to': `{trigger.data.to}`,
-							'value': `{trigger.data.value}`
-						}
-					},
 					{
 						app: 'payment',
 						payload: {
@@ -175,15 +145,6 @@
 					if(trigger.data.value > var['a_' || trigger.data.from]) bounce('Account have '||var['a_' || trigger.data.from]);
 				}`,
 				messages: [
-					{
-						app: 'data_feed',
-						payload: {
-							'event': 'transfer',
-							'from': `{trigger.data.from}`,
-							'to': `{trigger.data.to}`,
-							'value': `{trigger.data.value}`
-						}
-					},
 					{
 						app: 'payment',
 						payload: {
@@ -230,12 +191,6 @@
 						}
 					},
 					{
-						app: 'data',
-						payload: {
-							'remaining': `{var['perm_' || trigger.data.owner || '_' || trigger.data.spender]}`
-						}
-					},
-					{
 						app: 'state',
 						state: `{
 							response['remaining'] = var['perm_' || trigger.data.owner || '_' || trigger.data.spender];
@@ -263,14 +218,6 @@
 									amount: `{$base_inp}`
 								}
 							]
-						}
-					},
-					{
-						app: 'data_feed',
-						payload: {
-							'event': 'burn',
-							'from': `{trigger.address}`,
-							'value': `{trigger.data.value}`
 						}
 					},
 					{
@@ -322,14 +269,6 @@
 									amount: `{$base_inp}`
 								}
 							]
-						}
-					},
-					{
-						app: 'data_feed',
-						payload: {
-							'event': 'mint',
-							'to': `{trigger.data.to}`,
-							'value': `{trigger.data.value}`
 						}
 					},
 					{
